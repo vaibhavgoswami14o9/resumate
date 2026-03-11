@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resumate — Resume Editor</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind Config (canonical) -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2563eb",
+            "background-light": "#ffffff",
+            "background-dark": "#111621",
+            "charcoal": "#1a1a1a",
+            "muted-gray": "#f3f4f6",
+            "gray-border": "#e2e8f0",
+          },
+          fontFamily: { "display": ["Inter", "sans-serif"] },
+          borderRadius: {
+            "DEFAULT": "0.25rem", "lg": "0.5rem",
+            "xl": "0.75rem", "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .resume-a4 {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      margin: 2rem auto;
+    }
+
+    @media (max-width: 1280px) {
+      .resume-a4 {
+        transform: scale(0.8);
+        transform-origin: top center;
+      }
+    }
+  </style>
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID -->
+  <!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
+</head>
+
+<body class="bg-white text-charcoal font-display overflow-hidden">
+  <div class="flex flex-col h-screen">
+    <!-- Top Navigation Bar -->
+    <header class="flex items-center justify-between border-b border-gray-border px-8 py-3 bg-white z-20">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="bg-primary p-1.5 rounded-lg text-white">
+          <span class="material-symbols-outlined text-2xl">description</span>
+        </div>
+        <h2 class="text-charcoal text-lg font-bold tracking-tight"><span class="text-charcoal">Resu</span><span
+            class="text-primary">mate</span></h2>
+      </a>
+      <div class="flex items-center gap-8">
+        <nav class="flex items-center gap-6">
+          <a class="text-charcoal/70 hover:text-primary text-sm font-medium transition-colors"
+            href="editor.html">Dashboard</a>
+          <a class="text-charcoal/70 hover:text-primary text-sm font-medium transition-colors" href="#">Templates</a>
+          <a class="text-charcoal/70 hover:text-primary text-sm font-medium transition-colors" href="ats.html">ATS
+            Check</a>
+        </nav>
+        <div class="h-6 w-px bg-gray-border"></div>
+        <div class="flex items-center gap-4">
+          <button id="btn-download-pdf"
+            class="bg-primary text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm">
+            Download PDF
+          </button>
+          <div class="relative" id="user-menu-wrapper">
+            <button id="user-avatar-btn"
+              class="size-9 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 cursor-pointer hover:bg-primary/20 transition-colors"
+              title="Account options">
+              <span class="material-symbols-outlined text-primary text-xl">person</span>
+            </button>
+            <div id="user-dropdown"
+              class="hidden absolute right-0 top-12 bg-white border border-gray-border rounded-xl shadow-lg w-48 z-50 overflow-hidden">
+              <div class="px-4 py-3 border-b border-gray-border">
+                <p class="text-xs text-charcoal/50 font-medium">Signed in as</p>
+                <p id="user-email-display" class="text-sm font-semibold text-charcoal truncate">user@example.com</p>
+              </div>
+              <button id="btn-logout"
+                class="w-full text-left px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">logout</span>
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+        <button id="mobile-menu-btn"
+          class="md:hidden material-symbols-outlined text-2xl text-charcoal ml-4">menu</button>
+      </div>
+    </header>
+    <!-- Mobile Nav -->
+    <div id="mobile-nav"
+      class="hidden fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-8 text-xl font-semibold">
+      <button id="close-mobile-menu" class="absolute top-6 right-6 material-symbols-outlined text-2xl">close</button>
+      <a href="editor.html" class="hover:text-primary transition-colors">Dashboard</a>
+      <a href="ats.html" class="hover:text-primary transition-colors">ATS Check</a>
+      <a href="#" class="hover:text-primary transition-colors">Templates</a>
+      <button onclick="Auth.logout()" class="hover:text-primary transition-colors">Sign Out</button>
+    </div>
+    <!-- Main Workspace -->
+    <main class="flex flex-1 overflow-hidden">
+      <!-- Left Panel: Editor -->
+      <aside class="w-[450px] border-r border-gray-border bg-white flex flex-col h-full">
+        <div class="p-6 border-b border-gray-border">
+          <div class="flex items-center justify-between mb-2">
+            <h1 class="text-xl font-bold">Resume Editor</h1>
+            <button class="text-primary text-sm font-bold hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">bolt</span>
+              Optimize for ATS
+            </button>
+          </div>
+          <p class="text-sm text-charcoal/60">Editing: Senior Software Engineer Resume</p>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+          <!-- Personal Info (Expanded by default) -->
+          <div class="border-b border-gray-border" id="accordion-personal">
+            <button class="w-full flex items-center justify-between p-6 hover:bg-slate-50 transition-colors text-left"
+              data-accordion-toggle="personal-body" aria-expanded="true">
+              <span class="font-semibold text-charcoal">Personal Information</span>
+              <span class="material-symbols-outlined text-charcoal/40" id="accordion-icon-personal">expand_less</span>
+            </button>
+            <div id="personal-body" class="px-6 pb-6 space-y-4">
+              <div>
+                <label class="text-xs font-bold text-charcoal/50 uppercase tracking-wider mb-1 block">Full Name</label>
+                <input id="field-name" data-section="personal" data-key="name"
+                  class="w-full border border-gray-border rounded-lg px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                  type="text" value="Alex Rivera" />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-charcoal/50 uppercase tracking-wider mb-1 block">Job Title</label>
+                <input id="field-title" data-section="personal" data-key="title"
+                  class="w-full border border-gray-border rounded-lg px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                  placeholder="e.g. Senior Product Designer" type="text" />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-charcoal/50 uppercase tracking-wider mb-1 block">Email</label>
+                <input id="field-email" data-section="personal" data-key="email"
+                  class="w-full border border-gray-border rounded-lg px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                  type="email" placeholder="your@email.com" />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-charcoal/50 uppercase tracking-wider mb-1 block">Location</label>
+                <input id="field-location" data-section="personal" data-key="location"
+                  class="w-full border border-gray-border rounded-lg px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                  type="text" placeholder="City, State" />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-charcoal/50 uppercase tracking-wider mb-1 block">Professional
+                  Summary</label>
+                <textarea id="field-summary" data-section="personal" data-key="summary" rows="4"
+                  class="w-full border border-gray-border rounded-lg px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none"
+                  placeholder="A brief summary of your professional experience..."></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- Experience Accordion -->
+          <div class="border-b border-gray-border" id="accordion-experience">
+            <button class="w-full flex items-center justify-between p-6 hover:bg-slate-50 transition-colors text-left"
+              data-accordion-toggle="experience-body" aria-expanded="false">
+              <span class="font-semibold text-charcoal">Experience</span>
+              <span class="material-symbols-outlined text-charcoal/40" id="accordion-icon-experience">expand_more</span>
+            </button>
+            <div id="experience-body" class="px-6 pb-6 space-y-4 hidden">
+              <!-- Exp 1 -->
+              <div class="border border-gray-border rounded p-4 space-y-3">
+                <h4 class="text-xs font-bold text-charcoal">Experience 1</h4>
+                <input id="exp-0-title" data-section="experience" data-index="0" data-key="jobTitle"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Job Title" />
+                <input id="exp-0-company" data-section="experience" data-index="0" data-key="company"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Company" />
+                <div class="flex gap-2">
+                  <input id="exp-0-start" data-section="experience" data-index="0" data-key="startDate"
+                    class="w-1/2 border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Start Year" />
+                  <input id="exp-0-end" data-section="experience" data-index="0" data-key="endDate"
+                    class="w-1/2 border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="End Year" />
+                </div>
+                <textarea id="exp-0-bullets" data-section="experience" data-index="0" data-key="bullets" rows="3"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm"
+                  placeholder="Bullets (one per line)"></textarea>
+              </div>
+              <!-- Exp 2 -->
+              <div class="border border-gray-border rounded p-4 space-y-3">
+                <h4 class="text-xs font-bold text-charcoal">Experience 2</h4>
+                <input id="exp-1-title" data-section="experience" data-index="1" data-key="jobTitle"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Job Title" />
+                <input id="exp-1-company" data-section="experience" data-index="1" data-key="company"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Company" />
+                <div class="flex gap-2">
+                  <input id="exp-1-start" data-section="experience" data-index="1" data-key="startDate"
+                    class="w-1/2 border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Start Year" />
+                  <input id="exp-1-end" data-section="experience" data-index="1" data-key="endDate"
+                    class="w-1/2 border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="End Year" />
+                </div>
+                <textarea id="exp-1-bullets" data-section="experience" data-index="1" data-key="bullets" rows="3"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm"
+                  placeholder="Bullets (one per line)"></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- Education Accordion -->
+          <div class="border-b border-gray-border" id="accordion-education">
+            <button class="w-full flex items-center justify-between p-6 hover:bg-slate-50 transition-colors text-left"
+              data-accordion-toggle="education-body" aria-expanded="false">
+              <span class="font-semibold text-charcoal">Education</span>
+              <span class="material-symbols-outlined text-charcoal/40" id="accordion-icon-education">expand_more</span>
+            </button>
+            <div id="education-body" class="px-6 pb-6 space-y-4 hidden">
+              <div class="border border-gray-border rounded p-4 space-y-3">
+                <h4 class="text-xs font-bold text-charcoal">Education 1</h4>
+                <input id="edu-0-degree" data-section="education" data-index="0" data-key="degree"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Degree" />
+                <input id="edu-0-school" data-section="education" data-index="0" data-key="school"
+                  class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="School" />
+                <div class="flex gap-2">
+                  <input id="edu-0-start" data-section="education" data-index="0" data-key="startDate"
+                    class="w-1/2 border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="Start Year" />
+                  <input id="edu-0-end" data-section="education" data-index="0" data-key="endDate"
+                    class="w-1/2 border border-gray-border rounded-lg px-3 py-2 text-sm" placeholder="End Year" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Skills Accordion -->
+          <div class="border-b border-gray-border" id="accordion-skills">
+            <button class="w-full flex items-center justify-between p-6 hover:bg-slate-50 transition-colors text-left"
+              data-accordion-toggle="skills-body" aria-expanded="false">
+              <span class="font-semibold text-charcoal">Skills</span>
+              <span class="material-symbols-outlined text-charcoal/40" id="accordion-icon-skills">expand_more</span>
+            </button>
+            <div id="skills-body" class="px-6 pb-6 space-y-4 hidden">
+              <textarea id="field-skills" data-section="skills" rows="3"
+                class="w-full border border-gray-border rounded-lg px-3 py-2 text-sm"
+                placeholder="Comma-separated skills"></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- Footer Action -->
+        <div class="p-4 bg-slate-50 border-t border-gray-border">
+          <button
+            class="w-full py-3 border-2 border-dashed border-gray-border rounded-xl text-charcoal/50 text-sm font-medium hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-lg">add_circle</span>
+            Add New Section
+          </button>
+        </div>
+      </aside>
+      <!-- Right Panel: Canvas -->
+      <section class="flex-1 bg-background-light overflow-y-auto relative p-8">
+        <!-- Floating Scale Controls -->
+        <div
+          class="fixed bottom-8 right-8 flex items-center bg-white shadow-xl rounded-full px-4 py-2 border border-gray-border z-30 gap-4">
+          <button id="zoom-out"
+            class="material-symbols-outlined text-charcoal/60 hover:text-primary">remove_circle</button>
+          <span id="zoom-display" class="text-xs font-bold text-charcoal/60">100%</span>
+          <button id="zoom-in" class="material-symbols-outlined text-charcoal/60 hover:text-primary">add_circle</button>
+          <div class="w-px h-4 bg-gray-border mx-1"></div>
+          <button id="toggle-preview"
+            class="material-symbols-outlined text-charcoal/60 hover:text-primary">visibility</button>
+        </div>
+        <!-- A4 Canvas Area -->
+        <div id="resume-canvas" class="resume-a4 bg-white shadow-2xl relative">
+          <!-- Resume Content Mockup -->
+          <div class="border-b-4 border-primary pb-8 mb-8">
+            <h1 id="preview-name" class="text-4xl font-bold text-charcoal tracking-tight mb-2">Alex Rivera</h1>
+            <p id="preview-title" class="text-primary font-semibold tracking-wide uppercase text-sm">Senior Software
+              Engineer</p>
+            <div class="flex gap-4 mt-4 text-xs text-charcoal/60 font-medium">
+              <span id="preview-email" class="flex items-center gap-1"><span
+                  class="material-symbols-outlined text-xs">mail</span>
+                alex.rivera@example.com</span>
+              <span id="preview-location" class="flex items-center gap-1"><span
+                  class="material-symbols-outlined text-xs">location_on</span>
+                New York, NY</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">link</span>
+                portfolio.com</span>
+            </div>
+          </div>
+          <div class="space-y-8">
+            <section>
+              <h2
+                class="text-xs font-bold text-primary uppercase tracking-[0.2em] border-b border-gray-border pb-2 mb-4">
+                Summary</h2>
+              <p id="preview-summary" class="text-sm leading-relaxed text-charcoal/80">
+                Results-driven Senior Software Engineer with 8+ years of experience in developing scalable web
+                applications. Expert in React, Node.js, and cloud architecture. Proven track record of leading
+                cross-functional teams and delivering high-impact technical solutions.
+              </p>
+            </section>
+            <section>
+              <h2
+                class="text-xs font-bold text-primary uppercase tracking-[0.2em] border-b border-gray-border pb-2 mb-4">
+                Experience</h2>
+              <div id="preview-experience" class="space-y-6">
+              </div>
+            </section>
+            <section>
+              <h2
+                class="text-xs font-bold text-primary uppercase tracking-[0.2em] border-b border-gray-border pb-2 mb-4">
+                Education</h2>
+              <div id="preview-education">
+              </div>
+            </section>
+            <section>
+              <h2
+                class="text-xs font-bold text-primary uppercase tracking-[0.2em] border-b border-gray-border pb-2 mb-4">
+                Core Skills</h2>
+              <div id="preview-skills" class="flex flex-wrap gap-2">
+              </div>
+            </section>
+          </div>
+          <!-- Watermark for enterprise feel -->
+          <div class="absolute bottom-10 right-10 opacity-5 select-none pointer-events-none">
+            <span class="material-symbols-outlined text-9xl">verified_user</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- PDF Upgrade Modal -->
+  <div id="upgrade-modal"
+    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+        <span class="material-symbols-outlined text-primary text-3xl">download</span>
+      </div>
+      <h3 class="text-2xl font-bold text-charcoal mb-2">Download with Pro</h3>
+      <p class="text-charcoal/60 text-sm mb-6">
+        Unlock unlimited PDF downloads, ATS analysis, and premium templates with a one-time payment.
+      </p>
+      <div class="space-y-3">
+        <a href="pricing.html"
+          class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-sm">bolt</span>
+          Get Pro — $29 one-time
+        </a>
+        <button id="close-upgrade-modal"
+          class="w-full border border-gray-border text-charcoal/60 font-medium py-3 px-6 rounded-lg hover:bg-muted-gray transition-all">
+          Maybe later
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="js/auth.js"></script>
+  <script src="js/resume-data.js"></script>
+  <script src="js/editor.js"></script>
+  <script>Auth.requireAuth(); Auth.checkPostPaymentUpgrade();</script>
+  <script src="js/pdf-export.js"></script>
+</body>
+
+</html>

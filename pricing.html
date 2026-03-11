@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resumate — Pricing</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind Config (canonical) -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2563eb",
+            "background-light": "#ffffff",
+            "background-dark": "#111621",
+            "charcoal": "#1a1a1a",
+            "muted-gray": "#f3f4f6",
+            "gray-border": "#e2e8f0",
+          },
+          fontFamily: { "display": ["Inter", "sans-serif"] },
+          borderRadius: {
+            "DEFAULT": "0.25rem", "lg": "0.5rem",
+            "xl": "0.75rem", "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #111621;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- SEO -->
+  <meta name="description"
+    content="Resumate — Build an ATS-optimized resume in minutes with AI. Free to start. Download as PDF." />
+  <meta name="keywords" content="resume builder, ATS resume, AI resume, free resume, PDF resume" />
+  <link rel="canonical" href="https://your-domain.com/" />
+
+  <!-- Open Graph (for social sharing previews) -->
+  <meta property="og:title" content="Resumate — AI Resume Builder" />
+  <meta property="og:description" content="Build an ATS-optimized resume in minutes. Free to start." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://your-domain.com/" />
+  <meta property="og:image" content="https://your-domain.com/assets/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Resumate — AI Resume Builder" />
+  <meta name="twitter:description" content="Build an ATS-optimized resume in minutes." />
+
+  <!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID -->
+  <!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
+  \n
+</head>
+
+<body class="bg-background-light text-charcoal font-display antialiased">
+  <div class="relative flex min-h-screen flex-col">
+    <!-- Top Navigation -->
+    <header class="flex items-center justify-between border-b border-slate-100 px-6 py-4 md:px-20">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="flex h-8 w-8 items-center justify-center bg-primary text-white rounded-sm">
+          <span class="material-symbols-outlined !text-lg">dashboard_customize</span>
+        </div>
+        <h2 class="text-charcoal text-lg font-bold tracking-tight">Resu<span style="color: #2563EB;">mate</span></h2>
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="text-charcoal/70 hover:text-primary text-sm font-medium transition-colors"
+          href="index.html#features">Features</a>
+        <a class="text-charcoal/70 hover:text-primary text-sm font-medium transition-colors" href="#">Templates</a>
+        <a class="text-charcoal/70 hover:text-primary text-sm font-medium transition-colors" href="#">Enterprise</a>
+        <a class="text-charcoal/70 hover:text-primary text-sm font-medium transition-colors" href="#">Support</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <button onclick="window.location.href='login.html'"
+          class="text-charcoal text-sm font-semibold hover:underline px-2">Sign In</button>
+        <button onclick="window.location.href='login.html'"
+          class="bg-primary hover:bg-primary/90 text-white text-sm font-bold px-5 py-2 rounded-sm transition-all shadow-sm">
+          Get Started
+        </button>
+        \n<button id="mobile-menu-btn"
+          class="md:hidden material-symbols-outlined text-2xl text-charcoal ml-4">menu</button>\n
+      </div>
+    </header>\n
+    <!-- Mobile Nav -->
+    <div id="mobile-nav"
+      class="hidden fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-8 text-xl font-semibold">
+      <button id="close-mobile-menu" class="absolute top-6 right-6 material-symbols-outlined text-2xl">close</button>
+      <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+      <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
+      <a href="login.html" class="hover:text-primary transition-colors">Login</a>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const closeBtn = document.getElementById('close-mobile-menu');
+        if (mobileBtn) mobileBtn.addEventListener('click', () => mobileNav.classList.remove('hidden'));
+        if (closeBtn) closeBtn.addEventListener('click', () => mobileNav.classList.add('hidden'));
+      });
+    </script>
+    \n
+    <main class="flex-1 flex flex-col items-center px-6 py-16 md:py-24">
+      <!-- Hero Header -->
+      <div class="text-center max-w-2xl mb-16">
+        <h1 class="text-charcoal text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4">
+          Simple Pricing. No Subscriptions.
+        </h1>
+        <p class="text-slate-custom text-lg md:text-xl font-normal leading-relaxed">
+          Professional resume optimization for high-stakes roles. One payment, permanent access to your documents.
+        </p>
+      </div>
+      <!-- Pricing Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl px-4">
+        <!-- Basic Card -->
+        <div class="flex flex-col border border-slate-200 bg-white p-8 md:p-10 transition-shadow hover:shadow-sm">
+          <div class="mb-8">
+            <h3 class="text-slate-custom text-sm font-bold uppercase tracking-widest mb-2">Basic</h3>
+            <div class="flex items-baseline gap-1">
+              <span class="text-charcoal text-5xl font-black tracking-tighter">$0</span>
+              <span class="text-slate-custom text-sm font-semibold uppercase tracking-wide">/ Forever</span>
+            </div>
+          </div>
+          <div class="space-y-4 mb-10 flex-1">
+            <div class="flex items-start gap-3 text-charcoal">
+              <span class="material-symbols-outlined text-primary !text-xl">check_circle</span>
+              <span class="text-sm font-medium">1 Resume Export</span>
+            </div>
+            <div class="flex items-start gap-3 text-charcoal/50">
+              <span class="material-symbols-outlined !text-xl">check_circle</span>
+              <span class="text-sm">Standard ATS Check</span>
+            </div>
+            <div class="flex items-start gap-3 text-charcoal/50">
+              <span class="material-symbols-outlined !text-xl">check_circle</span>
+              <span class="text-sm">Default Layout</span>
+            </div>
+          </div>
+          <button onclick="window.location.href='login.html'"
+            class="w-full py-4 px-6 bg-slate-100 hover:bg-slate-200 text-charcoal text-sm font-bold uppercase tracking-wider transition-colors border border-slate-200">
+            Start for Free
+          </button>
+        </div>
+        <!-- Pro Card (Paid) -->
+        <div class="flex flex-col border-2 border-primary bg-white p-8 md:p-10 relative shadow-xl shadow-primary/5">
+          <div
+            class="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1">
+            Recommended
+          </div>
+          <div class="mb-8">
+            <h3 class="text-primary text-sm font-bold uppercase tracking-widest mb-2">Pro Edition</h3>
+            <div class="flex items-baseline gap-1">
+              <span class="text-charcoal text-5xl font-black tracking-tighter">$29</span>
+              <span class="text-slate-custom text-sm font-semibold uppercase tracking-wide">/ One-time</span>
+            </div>
+          </div>
+          <div class="space-y-4 mb-10 flex-1">
+            <div class="flex items-start gap-3 text-charcoal">
+              <span class="material-symbols-outlined text-primary !text-xl">check_circle</span>
+              <span class="text-sm font-bold">Unlimited PDF Exports</span>
+            </div>
+            <div class="flex items-start gap-3 text-charcoal">
+              <span class="material-symbols-outlined text-primary !text-xl">check_circle</span>
+              <span class="text-sm font-bold">Unlimited ATS Optimization</span>
+            </div>
+            <div class="flex items-start gap-3 text-charcoal">
+              <span class="material-symbols-outlined text-primary !text-xl">check_circle</span>
+              <span class="text-sm font-medium">Premium Enterprise Templates</span>
+            </div>
+            <div class="flex items-start gap-3 text-charcoal">
+              <span class="material-symbols-outlined text-primary !text-xl">check_circle</span>
+              <span class="text-sm font-medium">AI Keyword Suggestion Engine</span>
+            </div>
+            <div class="flex items-start gap-3 text-charcoal">
+              <span class="material-symbols-outlined text-primary !text-xl">check_circle</span>
+              <span class="text-sm font-medium">Priority 24/7 Support</span>
+            </div>
+          </div>
+          <a href="https://buy.stripe.com/YOUR_LINK_HERE" target="_blank" rel="noopener noreferrer"
+            class="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-sm">bolt</span>
+            Get Pro — $29
+          </a>
+        </div>
+      </div>
+      <!-- Trust Signals -->
+      <div class="mt-20 flex flex-col items-center">
+        <div class="flex items-center gap-2 mb-6 text-slate-custom/60 uppercase tracking-[0.2em] text-[10px] font-bold">
+          <span class="material-symbols-outlined !text-sm">lock</span>
+          Secure Payment Processing
+        </div>
+        <div
+          class="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+          <div class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined !text-4xl text-charcoal">credit_card</span>
+            <p class="text-[10px] font-bold uppercase">Visa</p>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined !text-4xl text-charcoal">payments</span>
+            <p class="text-[10px] font-bold uppercase">Mastercard</p>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined !text-4xl text-charcoal">account_balance</span>
+            <p class="text-[10px] font-bold uppercase">UPI</p>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined !text-4xl text-primary">verified_user</span>
+            <p class="text-[10px] font-bold uppercase text-primary">PCI-DSS Secure</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer class="border-t border-slate-100 py-10 px-6 md:px-20 text-center">
+      <p class="text-slate-custom text-xs">© 2024 Resumate. All rights reserved. Encrypted by AES-256 for your privacy.
+      </p>
+    </footer>
+  </div>
+</body>
+
+</html>

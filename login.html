@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resumate — Sign In</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind Config (canonical) -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2563eb",
+            "background-light": "#ffffff",
+            "background-dark": "#111621",
+            "charcoal": "#1a1a1a",
+            "muted-gray": "#f3f4f6",
+            "gray-border": "#e2e8f0",
+          },
+          fontFamily: { "display": ["Inter", "sans-serif"] },
+          borderRadius: {
+            "DEFAULT": "0.25rem", "lg": "0.5rem",
+            "xl": "0.75rem", "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"/>
+  <link rel="manifest" href="manifest.json"/>
+\n</head>
+
+<body class="bg-slate-50 dark:bg-background-dark min-h-screen flex flex-col font-display">
+  <header class="w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 text-charcoal dark:text-slate-100">
+        <div class="bg-primary p-1.5 rounded text-white flex items-center justify-center">
+          <span class="material-symbols-outlined text-xl">account_tree</span>
+        </div>
+        <h1 class="text-lg font-bold tracking-tight"><span class="text-charcoal dark:text-slate-100">Resu</span><span
+            style="color: #2563EB;">mate</span></h1>
+      </a>
+      <div class="flex items-center gap-6">
+        <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Resources</a>
+        <button class="text-sm font-semibold text-primary hover:text-blue-700 transition-colors">
+          Need Help?
+        </button>
+      </div>
+    \n<button id="mobile-menu-btn" class="md:hidden material-symbols-outlined text-2xl text-charcoal ml-4">menu</button>\n</div>
+  </header>\n
+<!-- Mobile Nav -->
+<div id="mobile-nav" class="hidden fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-8 text-xl font-semibold">
+  <button id="close-mobile-menu" class="absolute top-6 right-6 material-symbols-outlined text-2xl">close</button>
+  <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+  <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
+  <a href="login.html" class="hover:text-primary transition-colors">Login</a>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+    const closeBtn = document.getElementById('close-mobile-menu');
+    if (mobileBtn) mobileBtn.addEventListener('click', () => mobileNav.classList.remove('hidden'));
+    if (closeBtn) closeBtn.addEventListener('click', () => mobileNav.classList.add('hidden'));
+  });
+</script>
+\n
+  <main class="flex-1 flex items-center justify-center p-6">
+    <div class="w-full max-w-[440px]">
+      <div
+        class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm p-8 md:p-10">
+        <div class="text-center mb-8">
+          <div
+            class="mb-4 inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+            <span class="material-symbols-outlined text-primary text-3xl">lock_open</span>
+          </div>
+          <h2 class="text-2xl font-bold text-charcoal dark:text-slate-100 mb-2">Welcome Back</h2>
+          <p class="text-slate-500 dark:text-slate-400 text-sm">Sign in to manage your professional identity</p>
+        </div>
+        <form id="login-form" class="space-y-5" onsubmit="return false;">
+          <div>
+            <label class="block text-sm font-semibold text-charcoal dark:text-slate-200 mb-2" for="login-email">Email
+              Address</label>
+            <input
+              class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-charcoal dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-200"
+              id="login-email" placeholder="name@company.com" type="email" />
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-sm font-semibold text-charcoal dark:text-slate-200"
+                for="login-password">Password</label>
+              <a class="text-xs font-medium text-primary hover:underline" href="#">Forgot password?</a>
+            </div>
+            <input
+              class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-charcoal dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-200"
+              id="login-password" placeholder="••••••••" type="password" />
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            <input class="w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary" id="remember"
+              type="checkbox" />
+            <label class="text-sm text-slate-500 dark:text-slate-400" for="remember">Stay signed in for 30 days</label>
+          </div>
+          <button id="login-submit"
+            class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-lg shadow-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+            type="submit">
+            Sign In
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          </button>
+        </form>
+        <div id="login-error"
+          class="hidden mt-3 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm font-medium">
+          Invalid email or password. Please try again.
+        </div>
+        <div class="relative my-8">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-slate-200 dark:border-slate-800"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span
+              class="px-3 bg-white dark:bg-slate-900 text-slate-400 font-medium uppercase tracking-wider text-[10px]">or
+              continue with</span>
+          </div>
+        </div>
+        <button
+          class="w-full flex items-center justify-center gap-3 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-lg text-charcoal dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold transition-colors shadow-sm">
+          <svg class="w-5 h-5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4"></path>
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853"></path>
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+              fill="#FBBC05"></path>
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z"
+              fill="#EA4335"></path>
+          </svg>
+          Google Workspace
+        </button>
+        <p class="mt-8 text-center text-sm text-slate-500">
+          New to Resumate?
+          <a class="text-primary font-semibold hover:underline" href="#">Create an account</a>
+        </p>
+      </div>
+      <footer class="mt-8 text-center text-xs text-slate-400 space-x-4">
+        <a class="hover:text-slate-600 transition-colors" href="#">Privacy Policy</a>
+        <span>•</span>
+        <a class="hover:text-slate-600 transition-colors" href="#">Terms of Service</a>
+        <span>•</span>
+        <a class="hover:text-slate-600 transition-colors" href="#">Contact Support</a>
+      </footer>
+    </div>
+  </main>
+  <div
+    class="hidden lg:block fixed bottom-8 left-8 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg max-w-xs shadow-xl">
+    <div class="flex gap-4">
+      <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-slate-100 overflow-hidden">
+        <img class="w-full h-full object-cover" data-alt="Portrait of a smiling professional recruiter"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgSjgwy_FpHn_b_ddqZtuOnS3K1KA0iRBA6KALXYNfuQkcgCPz_NWR2kQZh-KAIaqjerl-V7GYNjakbxX8RoopZ64k4WMZ0DdF44dTHN7XIZahqz-XYPIy_IL5gMCwGAzaVWrHqZm6IMBxBTZPTfL9KG7HoAI0OKG9SJ6o41uH-LnkzAAzMJqBZIPtkMzK13MxZHcZOUweNW_dcd_wiTH_e-fPpgkMH8CY68ueiWvDxc7ZIqYbdY4LZFfQIj6iJ11nn1NR2gvx3as" />
+      </div>
+      <div>
+        <p class="text-[11px] font-bold text-primary uppercase tracking-widest mb-1">Success Story</p>
+        <p class="text-xs text-charcoal dark:text-slate-300 italic leading-relaxed">"ATS Resume Builder helped us cut
+          screening time by 45% in the first quarter."</p>
+        <p class="text-[10px] text-slate-400 mt-2 font-medium">— Sarah Jenkins, Talent Lead at Vertex</p>
+      </div>
+    </div>
+  </div>
+  <script src="js/auth.js"></script>
+  <script>
+    if (Auth.isLoggedIn()) {
+      window.location.href = 'editor.html';
+    }
+
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errorEl = document.getElementById('login-error');
+      const submitBtn = document.getElementById('login-submit');
+
+      errorEl.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in...';
+
+      setTimeout(() => {
+        const result = Auth.login(email, password);
+        if (result.success) {
+          window.location.href = 'editor.html';
+        } else {
+          errorEl.textContent = result.error;
+          errorEl.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In';
+        }
+      }, 600);
+    });
+  </script>
+</body>
+
+</html>
